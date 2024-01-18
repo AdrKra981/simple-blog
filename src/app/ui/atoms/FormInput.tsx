@@ -11,7 +11,11 @@ interface FormInputProps {
   fullWidth?: boolean;
   margin?: "dense" | "none" | "normal" | undefined;
   error: boolean;
-  helperText?: string;
+  helperText?: string | false | undefined;
+  name?: string;
+
+  value?: unknown;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const FormInput: FunctionComponent<FormInputProps> = ({
@@ -24,6 +28,8 @@ const FormInput: FunctionComponent<FormInputProps> = ({
   margin,
   error,
   helperText,
+  value,
+  onChange,
 }) => {
   return (
     <TextField
@@ -37,6 +43,8 @@ const FormInput: FunctionComponent<FormInputProps> = ({
       margin={margin}
       error={error}
       helperText={helperText}
+      value={value}
+      onChange={onChange}
     />
   );
 };

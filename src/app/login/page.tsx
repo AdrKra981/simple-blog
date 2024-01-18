@@ -3,7 +3,7 @@ import { FunctionComponent } from "react";
 import AuthForm from "../ui/organism/AuthForm";
 import FormInput from "../ui/atoms/FormInput";
 import Button from "../ui/atoms/Button";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 
@@ -35,7 +35,7 @@ const LoginPage: FunctionComponent<LoginPageProps> = () => {
           validationSchema={signInValidationSchema}
           onSubmit={handleSubmit}
         >
-          {({ errors, touched }) => {
+          {({ errors, touched, values, handleChange }) => {
             return (
               <Form>
                 <div className="px-8">
@@ -45,7 +45,11 @@ const LoginPage: FunctionComponent<LoginPageProps> = () => {
                     type="email"
                     margin="dense"
                     variant="filled"
+                    id="email"
                     error={Boolean(errors.email && touched.email)}
+                    helperText={touched.email && errors.email}
+                    value={values.email}
+                    onChange={handleChange}
                     required
                   />
                   <FormInput
@@ -55,10 +59,14 @@ const LoginPage: FunctionComponent<LoginPageProps> = () => {
                     margin="dense"
                     error={Boolean(errors.password && touched.password)}
                     required
+                    id="password"
+                    value={values.password}
+                    helperText={touched.password && errors.password}
+                    onChange={handleChange}
                     variant="filled"
                   />
 
-                  <Button>Login</Button>
+                  <Button type="submit">Login</Button>
                   <Link
                     href="/register"
                     className="flex items-center justify-center text-gray-500 mt-2"

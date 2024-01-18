@@ -33,14 +33,14 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ type, children }) => {
         left: "20%",
         right: "20%",
         top: "35%",
-        maxHeight: 420,
+        maxHeight: 500,
         minWidth: 360,
       }}
     >
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <div
-            className="flex flex-col items-center justify-center width-full p-20"
+            className="flex flex-col items-center justify-center width-full py-24"
             style={type === "login" ? activeStyle : { cursor: "pointer" }}
             onClick={() => onButtonClick("login")}
           >
@@ -48,7 +48,7 @@ const AuthForm: FunctionComponent<AuthFormProps> = ({ type, children }) => {
             Login
           </div>
           <div
-            className="flex flex-col items-center justify-center width-full p-20"
+            className="flex flex-col items-center justify-center width-full py-24"
             style={type === "register" ? activeStyle : { cursor: "pointer" }}
             onClick={() => onButtonClick("register")}
           >
