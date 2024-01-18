@@ -6,6 +6,7 @@ import Button from "../ui/atoms/Button";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
+import { LoginFormDataType } from "./types";
 
 interface LoginPageProps {}
 
@@ -17,7 +18,7 @@ const LoginPage: FunctionComponent<LoginPageProps> = () => {
       .required("Required"),
   });
 
-  const handleSubmit = (values: any) => {
+  const handleSubmit = (values: LoginFormDataType) => {
     console.log("values", values);
   };
 
