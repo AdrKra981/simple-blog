@@ -1,10 +1,10 @@
-import axios, { AxiosResponse } from "axios"
+import axios from "axios"
 
 interface Props{
     endpoint: string,
     method: string,
     data: Object,
-    onSuccess?: (response: AxiosResponse) => void,
+    onSuccess?: (response: any) => void,
     onFailed?: (error: any) => void
 } 
 

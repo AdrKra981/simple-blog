@@ -7,10 +7,14 @@ import Link from "next/link";
 import * as Yup from "yup";
 import { Form, Formik } from "formik";
 import { RegisterFormDataType } from "./types";
+import { request } from "../../../helpers/request";
+import { useRouter } from "next/navigation";
 
 interface RegisterPageProps {}
 
 const RegisterPage: FunctionComponent<RegisterPageProps> = () => {
+  const router = useRouter();
+
   const signUpValidationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
     password: Yup.string().required("Password is required"),
@@ -21,8 +25,19 @@ const RegisterPage: FunctionComponent<RegisterPageProps> = () => {
     ),
   });
 
+  const onSuccessRegister = () => {
+    return router.push("/login");
+  };
+
   const handleSubmit = (values: RegisterFormDataType) => {
     console.log("values", values);
+
+    request({
+      endpoint: "/user/register",
+      method: "POST",
+      data: values,
+      onSuccess: onSuccessRegister,
+    });
   };
 
   return (
