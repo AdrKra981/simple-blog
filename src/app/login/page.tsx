@@ -7,10 +7,13 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 import { LoginFormDataType } from "./types";
+import { request } from "../../../helpers/request";
+import { useRouter } from "next/navigation";
 
 interface LoginPageProps {}
 
 const LoginPage: FunctionComponent<LoginPageProps> = () => {
+  const router = useRouter();
   const signInValidationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
     password: Yup.string()
@@ -18,8 +21,18 @@ const LoginPage: FunctionComponent<LoginPageProps> = () => {
       .required("Required"),
   });
 
+  const onSuccessLogin = () => {
+    return router.push("/");
+  };
+
   const handleSubmit = (values: LoginFormDataType) => {
     console.log("values", values);
+    request({
+      endpoint: "/user/login",
+      method: "POST",
+      data: values,
+      onSuccess: onSuccessLogin,
+    });
   };
 
   return (
