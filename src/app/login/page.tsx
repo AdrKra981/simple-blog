@@ -26,7 +26,6 @@ const LoginPage: FunctionComponent<LoginPageProps> = () => {
   };
 
   const handleSubmit = (values: LoginFormDataType) => {
-    console.log("values", values);
     request({
       endpoint: "/user/login",
       method: "POST",

@@ -30,8 +30,6 @@ const RegisterPage: FunctionComponent<RegisterPageProps> = () => {
   };
 
   const handleSubmit = (values: RegisterFormDataType) => {
-    console.log("values", values);
-
     request({
       endpoint: "/user/register",
       method: "POST",
