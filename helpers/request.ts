@@ -13,7 +13,7 @@ export const  request =  async ({endpoint, method, data, onSuccess, onFailed}: P
         method, 
         url: `/api/${endpoint}`,
         data,
-        
+        baseURL: 'http://localhost:3000'
     }).then((response) => {
         if(onSuccess){
             onSuccess(response);
@@ -21,6 +21,7 @@ export const  request =  async ({endpoint, method, data, onSuccess, onFailed}: P
 
         return response.data;
     }, (error) => {
+        console.log('error', error.errors)
         if(onFailed){
             onFailed(error)
         }
@@ -30,7 +31,7 @@ export const  request =  async ({endpoint, method, data, onSuccess, onFailed}: P
         if(onFailed){
             onFailed(error)
         }
-        
-        return error;
+        let errMsg = error.errors ? error.errors.map((err: any) => err.toString()).join(', ') : error.toString();
+        throw new Error(errMsg);
     })
 }
