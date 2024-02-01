@@ -21,7 +21,6 @@ export const  request =  async ({endpoint, method, data, onSuccess, onFailed}: P
 
         return response.data;
     }, (error) => {
-        console.log('error', error.errors)
         if(onFailed){
             onFailed(error)
         }

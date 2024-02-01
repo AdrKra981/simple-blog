@@ -7,6 +7,7 @@ connectDb();
 export async function GET(){
     try{
         const blogPosts = await BlogPostModel.find({});
+       
 
         return NextResponse.json(blogPosts, {status: 200})  
     }catch (error: any) {

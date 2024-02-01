@@ -16,7 +16,7 @@ export const validateJWT = async (request: NextRequest) => {
 export const verifyJWTToken = async (token: string) => {
   const decodedData: any = await jwt.verify(token, process.env.JWT_SECRET!);
 
-  if(! decodedData.userId){
+  if(!decodedData.userId){
     throw new Error("Error with verify token!");
   }
 

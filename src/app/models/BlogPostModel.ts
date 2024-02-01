@@ -1,14 +1,8 @@
 import {  getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 import mongoose from "mongoose";
+import { Categories } from "../types/BlogPost";
 
-export enum Categories {
-    "Programming",
-    "Lifestyle",
-    "Movies",
-    "Music",
-    "Investments",
-    "Crypto"
-}
+
 
 @modelOptions({ schemaOptions: {} })
 class BlogPost {
@@ -22,7 +16,7 @@ class BlogPost {
     public content!: string;
 
     @prop({required: true})
-    public author_id!: mongoose.Types.ObjectId;
+    public author!: string;
 
     @prop({required: true, enum: Categories, default: Categories.Programming})
     public category!: Categories;
