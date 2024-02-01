@@ -36,15 +36,7 @@ const CodeElement = (props: any) => {
 };
 
 const DefaultElement = (props: any) => {
-  return (
-    <div
-      {...props.attributes}
-      contentEditable={false}
-      style={{ userSelect: "none" }}
-    >
-      {props.children}
-    </div>
-  );
+  return <div {...props.attributes}>{props.children}</div>;
 };
 
 const Leaf = (props: any) => {
@@ -56,7 +48,6 @@ const Leaf = (props: any) => {
         fontStyle: props.leaf.italic ? "italic" : "normal",
         textDecoration: props.leaf.underline ? "underline" : "none",
       }}
-      contentEditable={false}
     >
       {props.children}
     </span>
@@ -80,7 +71,9 @@ const TextEditor: FunctionComponent<TextEditorProps> = () => {
             </a>
           );
         default:
-          return <DefaultElement attributes={attributes} />;
+          return (
+            <DefaultElement attributes={attributes}>{children}</DefaultElement>
+          );
       }
     },
     []
@@ -98,6 +91,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = () => {
   ];
 
   const format = (formatType: string) => {
+    Editor.addMark(editor, formatType, true);
     const [match] = Editor.nodes(editor, {
       match: (n) => {
         return (n as any).type === formatType;
@@ -111,7 +105,9 @@ const TextEditor: FunctionComponent<TextEditorProps> = () => {
     );
   };
 
-  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = (
+    event: React.KeyboardEvent<HTMLDivElement>
+  ) => {
     if (!event.ctrlKey) {
       return;
     }
