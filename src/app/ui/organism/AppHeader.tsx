@@ -28,7 +28,7 @@ const AppHeader: FunctionComponent<AppHeaderProps> = () => {
   };
 
   useEffect(() => {
-    if (pathname !== "/login" && pathname !== "/register" && !!currentUser) {
+    if (pathname !== "/login" && pathname !== "/register" && !currentUser) {
       getCurrentUser();
     }
   }, [pathname]);

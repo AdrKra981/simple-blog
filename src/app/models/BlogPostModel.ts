@@ -1,8 +1,5 @@
 import {  getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 import mongoose from "mongoose";
-import { Categories } from "../types/BlogPost";
-
-
 
 @modelOptions({ schemaOptions: {} })
 class BlogPost {
@@ -18,8 +15,8 @@ class BlogPost {
     @prop({required: true})
     public author!: string;
 
-    @prop({required: true, enum: Categories, default: Categories.Programming})
-    public category!: Categories;
+    @prop({type: String, required: true, default: []})
+    public tags!: mongoose.Types.Array<string>;
 }
 
 export const BlogPostModel = mongoose.models.BlogPost || getModelForClass(BlogPost);

@@ -1,13 +1,35 @@
 import mongoose from "mongoose"
 
-export enum Categories {
-    "Programming",
-    "Lifestyle",
-    "Movies",
-    "Music",
-    "Investments",
-    "Crypto"
-}
+export const Tags = [
+    {
+        label: 'Programming',
+        value: 'programming',
+    },
+    {
+        label: 'Lifestyle',
+        value: 'lifestyle',
+    },
+    {
+        label: 'Music',
+        value: 'music',
+    },
+    {
+        label: 'Investments',
+        value: 'investments',
+    },
+    {
+        label: 'Crypto',
+        value: 'crypto',
+    },
+    {
+        label: 'Sport',
+        value: 'sport',
+    },
+    {
+        label: 'Movies',
+        value: 'movies',
+    }
+]
 
 export type BlogPost = {
     _id: mongoose.Types.ObjectId,
@@ -15,7 +37,7 @@ export type BlogPost = {
     meta_description?: string,
     content: string,
     author: string,
-    category: Categories,
+    tags: string[],
 }
 
-export type PostFormValues = Pick<BlogPost, 'title' | 'category' | 'content' | 'meta_description'>
+export type PostFormValues = Pick<BlogPost, 'title' | 'tags' | 'content' | 'meta_description'>

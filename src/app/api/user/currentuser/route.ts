@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
   try {
     const userId = await validateJWT(request);
     const user = await UserModel.findById(userId).select("-password");
-    
+
     if (!user) {
       throw new Error("No user found");
     }

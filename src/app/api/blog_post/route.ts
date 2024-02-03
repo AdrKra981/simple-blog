@@ -25,7 +25,13 @@ export async function POST(request: NextRequest) {
         throw new Error('Post with that title already exists in database!')
     }
 
-    await BlogPostModel.create(reqBody);
+    const post = reqBody;
+
+    if(!post.meta_description){
+      post.meta_description = post.title;
+    }
+
+    await BlogPostModel.create(post);
     return NextResponse.json({message: 'Post created succesfull', success: true}, {status: 201})  
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });

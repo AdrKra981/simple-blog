@@ -10,9 +10,13 @@ import {
   Descendant,
   Editor,
   Transforms,
+  Text,
 } from "slate";
 import { Editable, Slate, withReact, ReactEditor } from "slate-react";
 import TextEditorToolbar from "../atoms/TextEditorToolbar";
+import { useField } from "formik";
+import { FormControl, FormHelperText } from "@mui/material";
+import escapeHtml from "escape-html";
 
 type CustomElement = { type: "paragraph"; children: CustomText[] };
 type CustomText = { text: string };
@@ -25,7 +29,11 @@ declare module "slate" {
   }
 }
 
-interface TextEditorProps {}
+interface TextEditorProps {
+  id: string;
+  error: boolean;
+  helperText?: string | false | undefined;
+}
 
 const CodeElement = (props: any) => {
   return (
@@ -54,7 +62,13 @@ const Leaf = (props: any) => {
   );
 };
 
-const TextEditor: FunctionComponent<TextEditorProps> = () => {
+const TextEditor: FunctionComponent<TextEditorProps> = ({
+  id,
+  error,
+  helperText,
+}) => {
+  const [field, _, helpers] = useField({ name: id });
+  const { setValue } = helpers;
   const [editor] = useState(() => withReact(createEditor()));
 
   const renderElement = useCallback(
@@ -86,7 +100,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = () => {
   const initialValue: Descendant[] = [
     {
       type: "paragraph",
-      children: [{ text: "This is initial text" }],
+      children: [{ text: "" }],
     },
   ];
 
@@ -136,9 +150,37 @@ const TextEditor: FunctionComponent<TextEditorProps> = () => {
     }
   };
 
+  const serialize = (node: any) => {
+    if (Text.isText(node)) {
+      let string = escapeHtml(node.text);
+      if (node.bold) {
+        string = `<strong>${string}</strong>`;
+      }
+      return string;
+    }
+
+    const children = node.children.map((n) => serialize(n)).join("");
+
+    switch (node.type) {
+      case "quote":
+        return `<blockquote><p>${children}</p></blockquote>`;
+      case "paragraph":
+        return `<p>${children}</p>`;
+      case "link":
+        return `<a href="${escapeHtml(node.url)}">${children}</a>`;
+      default:
+        return children;
+    }
+  };
+
   return (
-    <div>
-      <Slate editor={editor} initialValue={initialValue}>
+    <FormControl fullWidth error={error}>
+      <Slate
+        editor={editor}
+        initialValue={initialValue}
+        {...field}
+        onChange={(v) => setValue(serialize(editor))}
+      >
         <TextEditorToolbar format={format} />
         <Editable
           style={{
@@ -152,7 +194,8 @@ const TextEditor: FunctionComponent<TextEditorProps> = () => {
           onKeyDown={onKeyDown}
         />
       </Slate>
-    </div>
+      {helperText && <FormHelperText>{helperText}</FormHelperText>}
+    </FormControl>
   );
 };
 
