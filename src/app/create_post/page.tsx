@@ -2,15 +2,15 @@ import { FunctionComponent } from "react";
 import AppHeader from "../ui/organism/AppHeader";
 import PostForm from "../ui/organism/PostForm";
 import { PostFormValues } from "../types/BlogPost";
-import { request } from "../../../helpers/request";
+import { fetchRequest } from "../../../helpers/request";
 
 interface CreatePostProps {}
 
 const CreatePost: FunctionComponent<CreatePostProps> = () => {
   const handleSubmit = async (values: PostFormValues) => {
     "use server";
-    await request({
-      endpoint: "/blog_post",
+    await fetchRequest({
+      endpoint: "blog_post",
       method: "POST",
       data: values,
     });

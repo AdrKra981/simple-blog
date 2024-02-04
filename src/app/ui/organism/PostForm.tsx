@@ -23,7 +23,7 @@ const PostForm: FunctionComponent<PostFormProps> = ({ handleSubmit }) => {
     tags: Yup.array().min(1, "You should choose min. one tag!"),
   });
 
-  const onSumbit = (values: PostFormValues) => {
+  const onSubmit = (values: PostFormValues) => {
     handleSubmit({ ...values, author: currentUser.username });
   };
 
@@ -36,7 +36,7 @@ const PostForm: FunctionComponent<PostFormProps> = ({ handleSubmit }) => {
         tags: [],
       }}
       validationSchema={BlogPostCreateValidationSchema}
-      onSubmit={onSumbit}
+      onSubmit={onSubmit}
     >
       {({ errors, touched, values, handleChange }) => {
         return (

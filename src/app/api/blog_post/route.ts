@@ -8,7 +8,6 @@ export async function GET(){
     try{
         const blogPosts = await BlogPostModel.find({});
        
-
         return NextResponse.json(blogPosts, {status: 200})  
     }catch (error: any) {
         return NextResponse.json({ message: error.message }, { status: 500 });
@@ -32,7 +31,7 @@ export async function POST(request: NextRequest) {
     }
 
     await BlogPostModel.create(post);
-    return NextResponse.json({message: 'Post created succesfull', success: true}, {status: 201})  
+    return NextResponse.json({message: 'Post created succesfully', success: true}, {status: 201})  
   } catch (error: any) {
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
