@@ -3,6 +3,7 @@ import AppHeader from "../ui/organism/AppHeader";
 import PostForm from "../ui/organism/PostForm";
 import { PostFormValues } from "../types/BlogPost";
 import { fetchRequest } from "../../../helpers/request";
+import { redirect } from "next/navigation";
 
 interface CreatePostProps {}
 
@@ -13,6 +14,9 @@ const CreatePost: FunctionComponent<CreatePostProps> = () => {
       endpoint: "blog_post",
       method: "POST",
       data: values,
+      onSuccess: () => {
+        return redirect("/");
+      },
     });
   };
 

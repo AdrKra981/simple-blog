@@ -2,19 +2,21 @@
 import { BlogPost, PostFormValues, Tags } from "@/app/types/BlogPost";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import FormInput from "../atoms/FormInput";
 import TextEditor from "../molecules/TextEditor";
 import { Grid } from "@mui/material";
 import Button from "../atoms/Button";
 import FormMultipleSelect from "../atoms/FormMultipleSelect";
 import { useSelector } from "react-redux";
+import MediaLibraryModal from "../modals/MediaLibraryModal";
 
 interface PostFormProps {
   handleSubmit: (values: Omit<BlogPost, "_id">) => void;
 }
 
 const PostForm: FunctionComponent<PostFormProps> = ({ handleSubmit }) => {
+  const [open, setOpen] = useState(false);
   const { currentUser } = useSelector((state: any) => state.users);
 
   const BlogPostCreateValidationSchema = Yup.object().shape({
@@ -33,6 +35,7 @@ const PostForm: FunctionComponent<PostFormProps> = ({ handleSubmit }) => {
         title: "",
         content: "",
         meta_description: "",
+        image: "",
         tags: [],
       }}
       validationSchema={BlogPostCreateValidationSchema}
@@ -43,7 +46,8 @@ const PostForm: FunctionComponent<PostFormProps> = ({ handleSubmit }) => {
           <div className="flex w-full my-8">
             <Form style={{ width: "100%" }}>
               <Grid container spacing={8}>
-                <Grid xs={6} item>
+                <Grid md={6} xs={12} item>
+                  <Button onClick={() => setOpen(true)}>Add cover image</Button>
                   <FormInput
                     label="Post title"
                     fullWidth
@@ -82,7 +86,7 @@ const PostForm: FunctionComponent<PostFormProps> = ({ handleSubmit }) => {
                     helperText={touched.tags && errors.tags}
                   />
                 </Grid>
-                <Grid xs={6} item>
+                <Grid md={6} xs={12} item>
                   <TextEditor
                     id="content"
                     error={Boolean(errors.content && touched.content)}
@@ -92,6 +96,8 @@ const PostForm: FunctionComponent<PostFormProps> = ({ handleSubmit }) => {
               </Grid>
               <Button type="submit">Create Post</Button>
             </Form>
+
+            <MediaLibraryModal open={open} onClose={() => setOpen(false)} />
           </div>
         );
       }}

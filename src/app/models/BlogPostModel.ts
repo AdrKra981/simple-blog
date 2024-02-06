@@ -12,6 +12,9 @@ class BlogPost {
     @prop({required: true})
     public content!: string;
 
+    @prop()
+    public cover_image!: string;
+
     @prop({required: true})
     public author!: string;
 
